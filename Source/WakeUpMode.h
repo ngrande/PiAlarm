@@ -7,12 +7,14 @@
 
 #include "ISoundMode.h"
 #include "MusicPlayer.h"
+#include <thread>
 
 class WakeUpMode : public ISoundMode {
 private:
+    thread backgroundPlayer;
     bool stopSound;
-    ISound *sound;
-    const char* specialSoundPath = "falcon.wav";
+    void PlayBackground(const MusicFile musicFile);
+
 public:
     virtual void StopSound() override;
 
