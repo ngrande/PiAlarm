@@ -8,6 +8,7 @@
 #include <map>
 #include <string>
 #include <irrKlang.h>
+#include "ISoundMode.h"
 
 using namespace std;
 using namespace irrklang;
@@ -23,14 +24,15 @@ private:
     vector<MusicFile> soundFileVector;
     ISoundEngine *engine;
     ISound *sound;
-    void playback(const MusicFile *musicFile);
+    ISoundMode *currSoundMode;
+    void startPlayback(ISoundMode *soundMode, const MusicFile *musicFile);
 public:
     MusicPlayer();
     ~MusicPlayer();
     void addSoundFilesFromDir(const char *dir);
     void addSoundFile(const char *filePath);
-    void playRandomSoundFile();
-    void playSoundFile(int index);
+    void playRandomSoundFile(ISoundMode *mode);
+    void playSoundFile(ISoundMode *mode, int index);
     void stopPlayback();
 };
 

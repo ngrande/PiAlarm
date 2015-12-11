@@ -4,13 +4,15 @@
 
 #include "MusicPlayer.h"
 #include "FileHelper.h"
+#include "WakeUpMode.h"
 #include <dirent.h>
 
-void MusicPlayer::playRandomSoundFile() {
+void MusicPlayer::playRandomSoundFile(ISoundMode *mode) {
     srand(time(NULL));
     ulong rndNum = rand() % soundFileVector.size();
     auto musicFile = soundFileVector[rndNum];
-    playback(&musicFile);
+
+    startPlayback(mode, &musicFile);
 }
 
 MusicPlayer::MusicPlayer() {
@@ -44,17 +46,9 @@ void MusicPlayer::addSoundFile(const char *filePath) {
     soundFileVector.push_back(musicFile);
 }
 
-void MusicPlayer::playSoundFile(int index) {
+void MusicPlayer::playSoundFile(ISoundMode *mode, int index) {
     auto musicFile = soundFileVector[index];
-    playback(&musicFile);
-}
-
-void MusicPlayer::playback(const MusicFile *musicFile) {
-    string path = musicFile->dir + "/" + musicFile->name;
-    sound = engine->play2D(path.c_str(), true, true);
-    if (sound) {
-        sound->setIsPaused(false);
-    }
+    startPlayback(mode, &musicFile);
 }
 
 MusicPlayer::~MusicPlayer() {
@@ -63,6 +57,11 @@ MusicPlayer::~MusicPlayer() {
 }
 
 void MusicPlayer::stopPlayback() {
-    if (sound)
-        sound->drop();
+    if (currSoundMode)
+        currSoundMode->StopSound();
+}
+
+void MusicPlayer::startPlayback(ISoundMode *soundMode, const MusicFile *musicFile) {
+    currSoundMode = soundMode;
+    currSoundMode->PlaySound(musicFile);
 }
