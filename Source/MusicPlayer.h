@@ -7,17 +7,31 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <irrKlang.h>
+
 using namespace std;
+using namespace irrklang;
+
+struct MusicFile {
+    string name;
+    string dir;
+};
+
 
 class MusicPlayer {
 private:
-    map<string, string> soundFileMap;
+    vector<MusicFile> soundFileVector;
+    ISoundEngine *engine;
+    ISound *sound;
+    void playback(const MusicFile *musicFile);
 public:
     MusicPlayer();
+    ~MusicPlayer();
     void addSoundFilesFromDir(const char *dir);
     void addSoundFile(const char *filePath);
-    void playRandomSoundFile() const;
-    void playSoundFile(string name) const;
+    void playRandomSoundFile();
+    void playSoundFile(int index);
+    void stopPlayback();
 };
 
 

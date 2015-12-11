@@ -6,6 +6,7 @@ INCLUDE_DIRECTORIES(irrKlang-64bit-1.5.0/include)
 LINK_DIRECTORIES(irrKlang-64bit-1.5.0/bin/linux-gcc-64)
 
 set(SOURCE_FILES main.cpp Source/MusicPlayer.cpp Source/MusicPlayer.h Source/FileHelper.cpp Source/FileHelper.h)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin")
 add_executable(PiAlarm ${SOURCE_FILES})
 
 TARGET_LINK_LIBRARIES(PiAlarm libIrrKlang.so)

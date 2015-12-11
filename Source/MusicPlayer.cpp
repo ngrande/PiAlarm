@@ -4,24 +4,18 @@
 
 #include "MusicPlayer.h"
 #include "FileHelper.h"
-#include <irrKlang.h>
 #include <dirent.h>
-#include <iostream>
 
-using namespace irrklang;
-
-void MusicPlayer::playRandomSoundFile() const {
-    ISoundEngine *engine = createIrrKlangDevice();
-
-
-    engine->play2D("", true);
-
-
-    engine->drop();
+void MusicPlayer::playRandomSoundFile() {
+    srand(time(NULL));
+    ulong rndNum = rand() % soundFileVector.size();
+    auto musicFile = soundFileVector[rndNum];
+    playback(&musicFile);
 }
 
 MusicPlayer::MusicPlayer() {
-    soundFileMap;
+    soundFileVector = vector<MusicFile>();
+    engine = createIrrKlangDevice();
 }
 
 void MusicPlayer::addSoundFilesFromDir(const char *dir) {
@@ -31,11 +25,12 @@ void MusicPlayer::addSoundFilesFromDir(const char *dir) {
         auto *direntp = readdir(dirp);
         if (direntp == nullptr)
             break;
-        cout << direntp->d_name << endl;
         auto extension = FileHelper::extractFileExtension(direntp->d_name);
-        if (extension.compare("mp3") == 0 || extension.compare("wav") == 0 || extension.compare("flac") == 0
-            || extension.compare("ogg") == 0) {
-            soundFileMap[direntp->d_name] = dir;
+        if (extension.compare("mp3") == 0 || extension.compare("wav") == 0 || extension.compare("flac") == 0) {
+            MusicFile musicFile;
+            musicFile.dir = dir;
+            musicFile.name = direntp->d_name;
+            soundFileVector.push_back(musicFile);
         }
     }
     closedir(dirp);
@@ -43,9 +38,31 @@ void MusicPlayer::addSoundFilesFromDir(const char *dir) {
 }
 
 void MusicPlayer::addSoundFile(const char *filePath) {
-    soundFileMap[FileHelper::extractFileName(filePath)] = FileHelper::extractFilePath(filePath);
+    MusicFile musicFile;
+    musicFile.dir = FileHelper::extractFilePath(filePath);
+    musicFile.name = FileHelper::extractFileName(filePath);
+    soundFileVector.push_back(musicFile);
 }
 
-void MusicPlayer::playSoundFile(string name) const {
+void MusicPlayer::playSoundFile(int index) {
+    auto musicFile = soundFileVector[index];
+    playback(&musicFile);
+}
 
+void MusicPlayer::playback(const MusicFile *musicFile) {
+    string path = musicFile->dir + "/" + musicFile->name;
+    sound = engine->play2D(path.c_str(), true, true);
+    if (sound) {
+        sound->setIsPaused(false);
+    }
+}
+
+MusicPlayer::~MusicPlayer() {
+    if (engine)
+        engine->drop();
+}
+
+void MusicPlayer::stopPlayback() {
+    if (sound)
+        sound->drop();
 }
