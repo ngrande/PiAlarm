@@ -11,14 +11,13 @@
 
 class WakeUpMode : public ISoundMode {
 private:
-    thread backgroundPlayer;
-    bool stopSound;
+    thread backgroundPlayerThread;
+    bool isStopping;
     void PlayBackground(const MusicFile musicFile);
-
 public:
-    virtual void StopSound() override;
+    virtual void stopSound() override;
 
-    virtual void PlaySound(const MusicFile *musicFile) override;
+    virtual void playSound(const MusicFile *musicFile) override;
 
 };
 

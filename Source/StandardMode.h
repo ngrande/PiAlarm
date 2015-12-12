@@ -9,13 +9,14 @@
 #include "ISoundMode.h"
 #include "MusicPlayer.h"
 
-class StandardMode: public ISoundMode {
+class StandardMode : public ISoundMode {
 private:
-    ISound* sound;
+    ISound *sound;
+    ISoundEngine *engine;
 public:
-    virtual void PlaySound(const MusicFile *musicFile) override;
+    virtual void playSound(const MusicFile *musicFile) override;
 
-    virtual void StopSound() override;
+    virtual void stopSound() override;
 };
 
 

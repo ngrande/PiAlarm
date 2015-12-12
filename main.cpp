@@ -8,8 +8,15 @@ int main(int argc, char* argv[]) {
     WakeUpMode wakeUpMode;
     mc.playRandomSoundFile(&wakeUpMode);
 
-    cout << "Any input + ENTER to stop" << endl;
-    string input;
-    cin >> input;
+    cout << "Press <ENTER> to stop" << endl;
+    cin.ignore();
+
+    mc.stopPlayback();
+
+    cout << "Playback stopped." << endl;
+
+    int seconds = 0;
+    cout << "Waiting " << seconds << " seconds before exit." << endl;
+    this_thread::sleep_for(chrono::seconds(seconds));
     return 0;
 }

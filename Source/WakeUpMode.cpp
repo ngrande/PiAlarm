@@ -5,16 +5,17 @@
 #include <chrono>
 #include "WakeUpMode.h"
 
-void WakeUpMode::PlaySound(const MusicFile *musicFile) {
-    stopSound = false;
+void WakeUpMode::playSound(const MusicFile *musicFile) {
+    isStopping = false;
     MusicFile musicFileCopy;
     musicFileCopy.dir = musicFile->dir;
     musicFileCopy.name = musicFile->name;
-    backgroundPlayer = thread(&WakeUpMode::PlayBackground, this, musicFileCopy);
+    backgroundPlayerThread = thread(&WakeUpMode::PlayBackground, this, musicFileCopy);
 }
 
-void WakeUpMode::StopSound() {
-    stopSound = true;
+void WakeUpMode::stopSound() {
+    isStopping = true;
+    backgroundPlayerThread.join();
 }
 
 void WakeUpMode::PlayBackground(const MusicFile musicFile) {
@@ -26,9 +27,9 @@ void WakeUpMode::PlayBackground(const MusicFile musicFile) {
         sound->setMinDistance(5.0f);
         float posOnCircle = 0;
         const float radius = 5;
-        srand(time(NULL));
+        srand((uint) time(NULL));
 
-        while (!stopSound) {
+        while (!isStopping) {
             posOnCircle += 0.04f;
             vec3df pos3d(radius * cosf(posOnCircle), 0, radius * sinf(posOnCircle * 0.5f));
 
@@ -36,18 +37,20 @@ void WakeUpMode::PlayBackground(const MusicFile musicFile) {
 
             sound->setPosition(pos3d);
 
-
-            int playPos = sound->getPlayPosition();
-
-
             vec3df pos(fmodf((float) rand(), radius * 2) - radius, 0, 0);
 
             engine->play3D("falcon.wav", pos);
+
+            //TODO: I do not like the following lines of code... try to change.
             long sleepMs = rand() % 120000 + 30000; // between 2 min and 30 sec.
-            this_thread::sleep_for(chrono::milliseconds(sleepMs));
+            long sleptCounter = 0;
+            while (sleepMs > sleptCounter && !isStopping) {
+                this_thread::sleep_for(chrono::milliseconds(10));
+            }
         }
     }
 
     if (sound)
         sound->drop();
+    engine->drop();
 }

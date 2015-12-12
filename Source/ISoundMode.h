@@ -13,8 +13,9 @@ using namespace irrklang;
 
 class ISoundMode {
 public:
-    virtual void PlaySound(const MusicFile *musicFile) = 0;
-    virtual void StopSound() = 0;
+    virtual void playSound(const MusicFile *musicFile) = 0;
+
+    virtual void stopSound() = 0;
 };
 
 

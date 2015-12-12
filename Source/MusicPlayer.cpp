@@ -8,7 +8,7 @@
 #include <dirent.h>
 
 void MusicPlayer::playRandomSoundFile(ISoundMode *mode) {
-    srand(time(NULL));
+    srand((uint) time(NULL));
     ulong rndNum = rand() % soundFileVector.size();
     auto musicFile = soundFileVector[rndNum];
 
@@ -21,22 +21,21 @@ MusicPlayer::MusicPlayer() {
 }
 
 void MusicPlayer::addSoundFilesFromDir(const char *dir) {
-    auto *dirp = opendir(dir);
+    auto *p_dir = opendir(dir);
 
     while (true) {
-        auto *direntp = readdir(dirp);
-        if (direntp == nullptr)
+        auto *p_dir_entry = readdir(p_dir);
+        if (p_dir_entry == nullptr)
             break;
-        auto extension = FileHelper::extractFileExtension(direntp->d_name);
+        auto extension = FileHelper::extractFileExtension(p_dir_entry->d_name);
         if (extension.compare("mp3") == 0 || extension.compare("wav") == 0 || extension.compare("flac") == 0) {
             MusicFile musicFile;
             musicFile.dir = dir;
-            musicFile.name = direntp->d_name;
+            musicFile.name = p_dir_entry->d_name;
             soundFileVector.push_back(musicFile);
         }
     }
-    closedir(dirp);
-
+    closedir(p_dir);
 }
 
 void MusicPlayer::addSoundFile(const char *filePath) {
@@ -58,10 +57,10 @@ MusicPlayer::~MusicPlayer() {
 
 void MusicPlayer::stopPlayback() {
     if (currSoundMode)
-        currSoundMode->StopSound();
+        currSoundMode->stopSound();
 }
 
 void MusicPlayer::startPlayback(ISoundMode *soundMode, const MusicFile *musicFile) {
     currSoundMode = soundMode;
-    currSoundMode->PlaySound(musicFile);
+    currSoundMode->playSound(musicFile);
 }

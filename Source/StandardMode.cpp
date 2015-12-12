@@ -4,8 +4,8 @@
 
 #include "StandardMode.h"
 
-void StandardMode::PlaySound(const MusicFile *musicFile) {
-    auto engine = createIrrKlangDevice();
+void StandardMode::playSound(const MusicFile *musicFile) {
+    engine = createIrrKlangDevice();
 
     string path = musicFile->dir + "/" + musicFile->name;
     sound = engine->play2D(path.c_str(), true, true);
@@ -14,7 +14,10 @@ void StandardMode::PlaySound(const MusicFile *musicFile) {
     }
 }
 
-void StandardMode::StopSound() {
+void StandardMode::stopSound() {
     if (sound)
         sound->drop();
+
+    if (engine)
+        engine->drop();
 }
