@@ -17,7 +17,6 @@ void MusicPlayer::playRandomSoundFile(ISoundMode *mode) {
 
 MusicPlayer::MusicPlayer() {
     soundFileVector = vector<MusicFile>();
-    engine = createIrrKlangDevice();
 }
 
 void MusicPlayer::addSoundFilesFromDir(const char *dir) {
@@ -51,8 +50,6 @@ void MusicPlayer::playSoundFile(ISoundMode *mode, int index) {
 }
 
 MusicPlayer::~MusicPlayer() {
-    if (engine)
-        engine->drop();
 }
 
 void MusicPlayer::stopPlayback() {

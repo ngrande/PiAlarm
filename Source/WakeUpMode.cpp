@@ -19,6 +19,8 @@ void WakeUpMode::stopSound() {
 }
 
 void WakeUpMode::PlayBackground(const MusicFile musicFile) {
+    ISound *secSound = nullptr;
+
     auto engine = createIrrKlangDevice();
 
     string path = musicFile.dir + "/" + musicFile.name;
@@ -39,16 +41,21 @@ void WakeUpMode::PlayBackground(const MusicFile musicFile) {
 
             vec3df pos(fmodf((float) rand(), radius * 2) - radius, 0, 0);
 
-            engine->play3D("falcon.wav", pos);
+            if (secSound)
+                secSound->drop();
+            secSound = engine->play3D("falcon.wav", pos);
 
             //TODO: I do not like the following lines of code... try to change.
             long sleepMs = rand() % 120000 + 30000; // between 2 min and 30 sec.
             long sleptCounter = 0;
             while (sleepMs > sleptCounter && !isStopping) {
                 this_thread::sleep_for(chrono::milliseconds(10));
+                sleptCounter += 10;
             }
         }
     }
+
+    engine->stopAllSounds();
 
     if (sound)
         sound->drop();

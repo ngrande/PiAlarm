@@ -22,8 +22,6 @@ struct MusicFile {
 class MusicPlayer {
 private:
     vector<MusicFile> soundFileVector;
-    ISoundEngine *engine;
-    ISound *sound;
     ISoundMode *currSoundMode;
     void startPlayback(ISoundMode *soundMode, const MusicFile *musicFile);
 public:
