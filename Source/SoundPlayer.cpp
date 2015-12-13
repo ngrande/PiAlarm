@@ -4,7 +4,6 @@
 
 #include "SoundPlayer.h"
 #include "Helper.h"
-#include "WakeUpMode.h"
 #include <dirent.h>
 #include <rapidxml.hpp>
 #include <fstream>

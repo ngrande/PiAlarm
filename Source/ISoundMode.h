@@ -4,6 +4,7 @@
 
 #ifndef PIALARM_ISOUNDMODE_H
 #define PIALARM_ISOUNDMODE_H
+
 #include <irrKlang.h>
 
 struct SoundFile;

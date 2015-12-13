@@ -15,6 +15,7 @@ void WakeUpMode::playSound(const SoundFile *musicFile) {
 
 void WakeUpMode::stopSound() {
     isStopping = true;
+    cv.notify_all();
     backgroundPlayerThread.join();
 }
 
@@ -41,13 +42,10 @@ void WakeUpMode::PlayBackground(const SoundFile musicFile) {
 
             engine->play3D("falcon.wav", pos);
 
-            //TODO: I do not like the following lines of code... try to change.
-            long sleepMs = rand() % 90000 + 30000; // sleep between 30 sec. and 2 min.
-            long sleptCounter = 0;
-            while (sleepMs > sleptCounter && !isStopping) {
-                this_thread::sleep_for(chrono::milliseconds(10));
-                sleptCounter += 10;
-            }
+            long sleepSeconds = rand() % 90 + 30; // sleep between 30 sec. and 2 min.
+
+            unique_lock<mutex> lk(cv_m);
+            cv.wait_for(lk, chrono::seconds(sleepSeconds));
         }
     }
 

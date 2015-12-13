@@ -4,6 +4,7 @@
 
 #ifndef PIALARM_MUSICPLAYER_H
 #define PIALARM_MUSICPLAYER_H
+
 #include <vector>
 #include <map>
 #include <string>
@@ -36,16 +37,22 @@ private:
     void startPlayback(ISoundMode *soundMode, const SoundFile *musicFile);
 
     void loadAlarmSetups();
+
 public:
     SoundPlayer();
 
     ~SoundPlayer();
+
     void addSoundFilesFromDir(const char *dir);
+
     void addSoundFile(const char *filePath);
+
     void playRandomSoundFile(ISoundMode *mode);
+
     void playSoundFile(ISoundMode *mode, int index);
 
     void playSoundFile(ISoundMode *mode, const char *filePath);
+
     void stopPlayback();
 };
 

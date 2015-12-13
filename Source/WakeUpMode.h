@@ -8,13 +8,19 @@
 #include "ISoundMode.h"
 #include "SoundPlayer.h"
 #include <thread>
+#include <condition_variable>
+
+using namespace std;
 
 class WakeUpMode : public ISoundMode {
 private:
     thread backgroundPlayerThread;
     bool isStopping;
+    condition_variable cv; // used to synchronize / block other threads
+    mutex cv_m; // used to protect shared data
 
     void PlayBackground(const SoundFile musicFile);
+
 public:
     virtual void stopSound() override;
 
