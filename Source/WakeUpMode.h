@@ -6,18 +6,19 @@
 #define PIALARM_WAKEUPMODE_H
 
 #include "ISoundMode.h"
-#include "MusicPlayer.h"
+#include "SoundPlayer.h"
 #include <thread>
 
 class WakeUpMode : public ISoundMode {
 private:
     thread backgroundPlayerThread;
     bool isStopping;
-    void PlayBackground(const MusicFile musicFile);
+
+    void PlayBackground(const SoundFile musicFile);
 public:
     virtual void stopSound() override;
 
-    virtual void playSound(const MusicFile *musicFile) override;
+    virtual void playSound(const SoundFile *musicFile) override;
 
 };
 

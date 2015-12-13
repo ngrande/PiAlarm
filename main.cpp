@@ -1,9 +1,9 @@
-#include "Source/MusicPlayer.h"
+#include "Source/SoundPlayer.h"
 #include "Source/WakeUpMode.h"
 #include <iostream>
 
 int main(int argc, char* argv[]) {
-    MusicPlayer mc;
+    SoundPlayer mc;
     mc.addSoundFilesFromDir(argv[1]);
     WakeUpMode wakeUpMode;
     mc.playRandomSoundFile(&wakeUpMode);

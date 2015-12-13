@@ -7,11 +7,15 @@
 #include <string>
 using namespace std;
 
-class FileHelper {
+class Helper {
 public:
     static string extractFileExtension(const string filename);
     static string extractFilePath(const string completeFilePath);
     static string extractFileName(const string completeFilePath);
+
+    static void separate(string *buffer, const string input, char separator);
+
+    static int countAppearance(const string input, char searchChar);
 };
 
 

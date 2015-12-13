@@ -13,24 +13,39 @@
 using namespace std;
 using namespace irrklang;
 
-struct MusicFile {
+struct SoundFile {
     string name;
     string dir;
 };
 
+struct AlarmSetup {
+    string description;
+    int hour;
+    int minute;
+    vector<int> days; // 1 = Monday, 2 = Tuesday, ... 7 = Sunday.
+};
 
-class MusicPlayer {
+
+class SoundPlayer {
 private:
-    vector<MusicFile> soundFileVector;
+    const char *CONFIG_FILENAME = ".PiAlarm.xml";
+    vector<SoundFile> soundFileVector;
+    vector<AlarmSetup> alarmSetups;
     ISoundMode *currSoundMode;
-    void startPlayback(ISoundMode *soundMode, const MusicFile *musicFile);
+
+    void startPlayback(ISoundMode *soundMode, const SoundFile *musicFile);
+
+    void loadAlarmSetups();
 public:
-    MusicPlayer();
-    ~MusicPlayer();
+    SoundPlayer();
+
+    ~SoundPlayer();
     void addSoundFilesFromDir(const char *dir);
     void addSoundFile(const char *filePath);
     void playRandomSoundFile(ISoundMode *mode);
     void playSoundFile(ISoundMode *mode, int index);
+
+    void playSoundFile(ISoundMode *mode, const char *filePath);
     void stopPlayback();
 };
 

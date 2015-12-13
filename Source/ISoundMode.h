@@ -6,14 +6,14 @@
 #define PIALARM_ISOUNDMODE_H
 #include <irrKlang.h>
 
-struct MusicFile;
+struct SoundFile;
 
 using namespace irrklang;
 
 
 class ISoundMode {
 public:
-    virtual void playSound(const MusicFile *musicFile) = 0;
+    virtual void playSound(const SoundFile *musicFile) = 0;
 
     virtual void stopSound() = 0;
 };

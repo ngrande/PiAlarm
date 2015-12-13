@@ -5,9 +5,9 @@
 #include <chrono>
 #include "WakeUpMode.h"
 
-void WakeUpMode::playSound(const MusicFile *musicFile) {
+void WakeUpMode::playSound(const SoundFile *musicFile) {
     isStopping = false;
-    MusicFile musicFileCopy;
+    SoundFile musicFileCopy;
     musicFileCopy.dir = musicFile->dir;
     musicFileCopy.name = musicFile->name;
     backgroundPlayerThread = thread(&WakeUpMode::PlayBackground, this, musicFileCopy);
@@ -18,9 +18,7 @@ void WakeUpMode::stopSound() {
     backgroundPlayerThread.join();
 }
 
-void WakeUpMode::PlayBackground(const MusicFile musicFile) {
-    ISound *secSound = nullptr;
-
+void WakeUpMode::PlayBackground(const SoundFile musicFile) {
     auto engine = createIrrKlangDevice();
 
     string path = musicFile.dir + "/" + musicFile.name;
@@ -41,12 +39,10 @@ void WakeUpMode::PlayBackground(const MusicFile musicFile) {
 
             vec3df pos(fmodf((float) rand(), radius * 2) - radius, 0, 0);
 
-            if (secSound)
-                secSound->drop();
-            secSound = engine->play3D("falcon.wav", pos);
+            engine->play3D("falcon.wav", pos);
 
             //TODO: I do not like the following lines of code... try to change.
-            long sleepMs = rand() % 120000 + 30000; // between 2 min and 30 sec.
+            long sleepMs = rand() % 90000 + 30000; // sleep between 30 sec. and 2 min.
             long sleptCounter = 0;
             while (sleepMs > sleptCounter && !isStopping) {
                 this_thread::sleep_for(chrono::milliseconds(10));

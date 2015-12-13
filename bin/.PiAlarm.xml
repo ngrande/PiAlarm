@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!-- Sample XML configuration -->
+<PiAlarm>
+    <AlarmSetups>
+        <AlarmSetup>
+            <!-- Description of the alarm -->
+            <description>Test</description>
+            <!-- Hour when to trigger -->
+            <hour>7</hour>
+            <!-- Minute when to trigger -->
+            <minute>30</minute>
+            <!-- Days to alarm -->
+            <!-- 1=Mon, 2=Tue, ... 7=Sun -->
+            <days>1,2,3,4,5</days> <!-- this would be all workdays -->
+        </AlarmSetup>
+    </AlarmSetups>
+</PiAlarm>
