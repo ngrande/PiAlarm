@@ -14,9 +14,9 @@ private:
     ISound *sound;
     ISoundEngine *engine;
 public:
-    virtual void playSound(const SoundFile *musicFile) override;
+    virtual void startPlayback(const SoundFile *musicFile) override;
 
-    virtual void stopSound() override;
+    virtual void stopPlayback() override;
 };
 
 

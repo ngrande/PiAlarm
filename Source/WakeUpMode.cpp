@@ -5,7 +5,7 @@
 #include <chrono>
 #include "WakeUpMode.h"
 
-void WakeUpMode::playSound(const SoundFile *musicFile) {
+void WakeUpMode::startPlayback(const SoundFile *musicFile) {
     isStopping = false;
     SoundFile musicFileCopy;
     musicFileCopy.dir = musicFile->dir;
@@ -13,7 +13,7 @@ void WakeUpMode::playSound(const SoundFile *musicFile) {
     backgroundPlayerThread = thread(&WakeUpMode::PlayBackground, this, musicFileCopy);
 }
 
-void WakeUpMode::stopSound() {
+void WakeUpMode::stopPlayback() {
     isStopping = true;
     cv.notify_all();
     backgroundPlayerThread.join();

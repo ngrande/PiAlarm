@@ -3,7 +3,7 @@
 //
 
 #include "SoundPlayer.h"
-#include "Helper.h"
+#include "Utils/Helper.h"
 #include <dirent.h>
 #include <rapidxml.hpp>
 #include <fstream>
@@ -59,12 +59,12 @@ SoundPlayer::~SoundPlayer() {
 
 void SoundPlayer::stopPlayback() {
     if (currSoundMode)
-        currSoundMode->stopSound();
+        currSoundMode->stopPlayback();
 }
 
 void SoundPlayer::startPlayback(ISoundMode *soundMode, const SoundFile *musicFile) {
     currSoundMode = soundMode;
-    currSoundMode->playSound(musicFile);
+    currSoundMode->startPlayback(musicFile);
 }
 
 void SoundPlayer::playSoundFile(ISoundMode *mode, const char *filePath) {
