@@ -16,7 +16,7 @@ void SoundPlayer::playRandomSoundFile(ISoundMode *mode) {
     ulong rndNum = rand() % soundFileVector.size();
     auto musicFile = soundFileVector[rndNum];
 
-    startPlayback(mode, &musicFile);
+    startPlayback(mode, musicFile);
 }
 
 SoundPlayer::SoundPlayer() {
@@ -51,7 +51,7 @@ void SoundPlayer::addSoundFile(const char *filePath) {
 
 void SoundPlayer::playSoundFile(ISoundMode *mode, int index) {
     auto musicFile = soundFileVector[index];
-    startPlayback(mode, &musicFile);
+    startPlayback(mode, musicFile);
 }
 
 SoundPlayer::~SoundPlayer() {
@@ -62,7 +62,7 @@ void SoundPlayer::stopPlayback() {
         currSoundMode->stopPlayback();
 }
 
-void SoundPlayer::startPlayback(ISoundMode *soundMode, const SoundFile *musicFile) {
+void SoundPlayer::startPlayback(ISoundMode *soundMode, const SoundFile &musicFile) {
     currSoundMode = soundMode;
     currSoundMode->startPlayback(musicFile);
 }
@@ -71,7 +71,7 @@ void SoundPlayer::playSoundFile(ISoundMode *mode, const char *filePath) {
     SoundFile musicFile;
     musicFile.dir = Helper::extractFilePath(filePath);
     musicFile.name = Helper::extractFileName(filePath);
-    startPlayback(mode, &musicFile);
+    startPlayback(mode, musicFile);
 }
 
 void SoundPlayer::loadAlarmSetups() {

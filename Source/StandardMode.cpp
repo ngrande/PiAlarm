@@ -4,10 +4,10 @@
 
 #include "StandardMode.h"
 
-void StandardMode::startPlayback(const SoundFile *musicFile) {
+void StandardMode::startPlayback(const SoundFile &musicFile) {
     engine = createIrrKlangDevice();
 
-    string path = musicFile->dir + "/" + musicFile->name;
+    string path = musicFile.dir + "/" + musicFile.name;
     sound = engine->play2D(path.c_str(), true, true);
     if (sound) {
         sound->setIsPaused(false);

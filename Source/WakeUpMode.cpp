@@ -5,11 +5,11 @@
 #include <chrono>
 #include "WakeUpMode.h"
 
-void WakeUpMode::startPlayback(const SoundFile *musicFile) {
+void WakeUpMode::startPlayback(const SoundFile &musicFile) {
     isStopping = false;
     SoundFile musicFileCopy;
-    musicFileCopy.dir = musicFile->dir;
-    musicFileCopy.name = musicFile->name;
+    musicFileCopy.dir = musicFile.dir;
+    musicFileCopy.name = musicFile.name;
     backgroundPlayerThread = thread(&WakeUpMode::PlayBackground, this, musicFileCopy);
 }
 
@@ -19,7 +19,7 @@ void WakeUpMode::stopPlayback() {
     backgroundPlayerThread.join();
 }
 
-void WakeUpMode::PlayBackground(const SoundFile musicFile) {
+void WakeUpMode::PlayBackground(const SoundFile &musicFile) {
     auto engine = createIrrKlangDevice();
 
     string path = musicFile.dir + "/" + musicFile.name;

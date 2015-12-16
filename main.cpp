@@ -1,22 +1,34 @@
 #include "Source/SoundPlayer.h"
-#include "Source/WakeUpMode.h"
+#include "Source/Utils/Scheduler.h"
 #include <iostream>
 
-int main(int argc, char* argv[]) {
-    SoundPlayer mc;
-    mc.addSoundFilesFromDir(argv[1]);
-    WakeUpMode wakeUpMode;
-    mc.playRandomSoundFile(&wakeUpMode);
+class TaskImplementation : public ITask {
+public:
+    virtual void onTimeExceeded() const override { cout << "I was waiting a few seconds..." << endl; };
+};
 
-    cout << "Press <ENTER> to stop" << endl;
+int main(int argc, char *argv[]) {
+//    SoundPlayer mc;
+//    mc.addSoundFilesFromDir(argv[1]);
+//    WakeUpMode wakeUpMode;
+//    mc.playRandomSoundFile(&wakeUpMode);
+//
+//    cout << "Press <ENTER> to stop" << endl;
+//    cin.ignore();
+//
+//    mc.stopPlayback();
+//
+//    cout << "Playback stopped." << endl;
+
+
+    Scheduler scheduler;
+    shared_ptr<TaskImplementation> taskImplementationPtr(new TaskImplementation);
+    shared_ptr<ScheduleTime> timePtr(new ScheduleTime(3, 21, 0, 0));
+    scheduler.addTask(taskImplementationPtr, timePtr);
+    cout << "Task added to scheduler..." << endl;
+    cout << "Starting scheduler..." << endl;
+    scheduler.start();
     cin.ignore();
-
-    mc.stopPlayback();
-
-    cout << "Playback stopped." << endl;
-
-    int seconds = 0;
-    cout << "Waiting " << seconds << " seconds before exit." << endl;
-    this_thread::sleep_for(chrono::seconds(seconds));
+    scheduler.stop();
     return 0;
 }

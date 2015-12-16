@@ -9,6 +9,7 @@
 #include <map>
 #include <string>
 #include <irrKlang.h>
+#include <memory>
 #include "ISoundMode.h"
 
 using namespace std;
@@ -34,7 +35,7 @@ private:
     vector<AlarmSetup> alarmSetups;
     ISoundMode *currSoundMode;
 
-    void startPlayback(ISoundMode *soundMode, const SoundFile *musicFile);
+    void startPlayback(ISoundMode *soundMode, const SoundFile &musicFile);
 
     void loadAlarmSetups();
 

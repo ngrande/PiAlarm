@@ -19,12 +19,12 @@ private:
     condition_variable cv; // used to synchronize / block other threads
     mutex cv_m; // used to protect shared data
 
-    void PlayBackground(const SoundFile musicFile);
+    void PlayBackground(const SoundFile &musicFile);
 
 public:
     virtual void stopPlayback() override;
 
-    virtual void startPlayback(const SoundFile *musicFile) override;
+    virtual void startPlayback(const SoundFile &musicFile) override;
 
 };
 
