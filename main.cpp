@@ -4,7 +4,17 @@
 
 class TaskImplementation : public ITask {
 public:
-    virtual void onTimeExceeded() const override { cout << "I was waiting a few seconds..." << endl; };
+    virtual void onTimeExceeded() const override {
+        time_t timerNow;
+        time(&timerNow); // get current time
+        struct tm timeNow;
+        localtime_r(&timerNow, &timeNow); // get local time
+
+        char buffer[80];
+        strftime(buffer, sizeof(buffer), "Now it is %F %I:%M%p.", &timeNow);
+        puts(buffer);
+        cout << "I was waiting a few seconds..." << endl;
+    };
 };
 
 int main(int argc, char *argv[]) {
@@ -22,12 +32,13 @@ int main(int argc, char *argv[]) {
 
 
     Scheduler scheduler;
-    shared_ptr<TaskImplementation> taskImplementationPtr(new TaskImplementation);
-    shared_ptr<ScheduleTime> timePtr(new ScheduleTime(3, 21, 0, 0));
-    scheduler.addTask(taskImplementationPtr, timePtr);
+    TaskImplementation taskImplementationPtr;
+
+    scheduler.addTask(&taskImplementationPtr, 7, 0, 0, 0, true);
     cout << "Task added to scheduler..." << endl;
     cout << "Starting scheduler..." << endl;
     scheduler.start();
+    cout << "Press ENTER to exit." << endl;
     cin.ignore();
     scheduler.stop();
     return 0;

@@ -8,40 +8,29 @@
 #include <condition_variable>
 #include <map>
 #include <vector>
-#include "ITask.h"
-#include "ScheduleTime.h"
+#include "ScheduleTask.h"
 #include <thread>
 
 using namespace std;
-
-struct TaskSave {
-    shared_ptr<ScheduleTime> time;
-    shared_ptr<ITask> task;
-
-    TaskSave(shared_ptr<ITask> taskPtr, shared_ptr<ScheduleTime> scheduleTimePtr) {
-        task = taskPtr;
-        time = scheduleTimePtr;
-    }
-};
 
 // This class should be used to create schedules events / tasks that will trigger after a specific time -> periodically or only one time
 class Scheduler {
 private:
     condition_variable cv; // used to stop or continue a thread
     mutex cv_m; // used to protect a shared resource
-//    map<TaskTime, vector<ITask*>> tasksMap;
-    vector<shared_ptr<TaskSave>> tasks;
+    vector<shared_ptr<ScheduleTask>> tasks;
     thread taskStarterThread;
-    thread taskExecutorThread;
-    bool stopped;
+    bool stopped = true;
 
     void startNextTask();
 
     double calcSecondsUntilNextTask();
 
+    void startTaskStarterThread();
+
 public:
 
-    void addTask(shared_ptr<ITask> task, shared_ptr<ScheduleTime> scheduleTime);
+    void addTask(ITask *task, int dayOfWeek, int hour, int minute, int second, bool repeat);
 
     void start();
 
