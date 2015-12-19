@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
     Scheduler scheduler;
     TaskImplementation taskImplementationPtr;
 
-    scheduler.addTask(&taskImplementationPtr, 7, 0, 0, 0, true);
+    scheduler.addTask(&taskImplementationPtr, 6, 0, 0, 0, true);
     cout << "Task added to scheduler..." << endl;
     cout << "Starting scheduler..." << endl;
     scheduler.start();

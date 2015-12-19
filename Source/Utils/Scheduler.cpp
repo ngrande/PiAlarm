@@ -41,8 +41,9 @@ void Scheduler::startNextTask() {
         for (int i = (int) tasks.size() - 1; i >= 0; i--) {
             if (tasks[i]->calculateLeftTime() <= 0) {
 
-                thread taskExecutorThread(&ITask::onTimeExceeded, tasks[i]->getTaskImpl());
-                taskExecutorThread.detach(); // otherwise it would be destroyed as soon as out of scope...
+//                thread taskExecutorThread(&ITask::onTimeExceeded, tasks[i]->getTaskImpl());
+//                taskExecutorThread.detach(); // otherwise it would be destroyed as soon as out of scope...
+                tasks[i]->executeTaskAsync();
 
                 // delete element from vector when repeat is false
                 if (!tasks[i]->getDoRepeat()) {

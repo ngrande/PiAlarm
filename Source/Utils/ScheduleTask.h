@@ -21,6 +21,7 @@ private:
 
     ITask *task;
     bool doRepeat;
+    struct tm lastExecutionTime;
 public:
     ScheduleTask(ITask *task, int dayOfWeek, int hour, int minute, int second, bool doRepeat) : task(task),
                                                                                                 dayOfWeek(dayOfWeek),
@@ -29,7 +30,7 @@ public:
                                                                                                 second(second),
                                                                                                 doRepeat(doRepeat) { };
 
-    ITask *getTaskImpl() const { return task; };
+    void executeTaskAsync();
 
     bool getDoRepeat() const { return doRepeat; };
 
