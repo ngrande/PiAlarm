@@ -3,12 +3,18 @@
 <PiAlarm>
     <AlarmSetups>
         <AlarmSetup>
-            <!-- Description of the alarm -->
-            <description>Test</description>
+            <!-- name of the alarm -->
+            <name>Work alarm</name>
+            <!-- message to show when alarm triggers -->
+            <message>Stand up! now.</message>
+            <!-- path of the sound file -->
+            <sound-path>/</sound-path>
             <!-- Hour when to trigger -->
-            <hour>7</hour>
+            <hour>8</hour>
             <!-- Minute when to trigger -->
             <minute>30</minute>
+            <!-- Second when to trigger -->
+            <second>0</second>
             <!-- Days to alarm -->
             <!-- 1=Mon, 2=Tue, ... 7=Sun -->
             <days>1,2,3,4,5</days> <!-- this would be all workdays -->

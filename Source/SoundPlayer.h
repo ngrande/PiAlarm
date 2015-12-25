@@ -20,24 +20,12 @@ struct SoundFile {
     string dir;
 };
 
-struct AlarmSetup {
-    string description;
-    int hour;
-    int minute;
-    vector<int> days; // 1 = Monday, 2 = Tuesday, ... 7 = Sunday.
-};
-
-
 class SoundPlayer {
 private:
-    const char *CONFIG_FILENAME = ".PiAlarm.xml";
     vector<SoundFile> soundFileVector;
-    vector<AlarmSetup> alarmSetups;
     ISoundMode *currSoundMode;
 
     void startPlayback(ISoundMode *soundMode, const SoundFile &musicFile);
-
-    void loadAlarmSetups();
 
 public:
     SoundPlayer();

@@ -30,7 +30,7 @@ private:
 
 public:
 
-    void addTask(ITask *task, int dayOfWeek, int hour, int minute, int second, bool repeat);
+    void addTask(shared_ptr<ITask> task, int dayOfWeek, int hour, int minute, int second, bool repeat);
 
     void start();
 

@@ -4,7 +4,7 @@
 
 class TaskImplementation : public ITask {
 public:
-    virtual void onTimeExceeded() const override {
+    virtual void onTimeExceeded() override {
         time_t timerNow;
         time(&timerNow); // get current time
         struct tm timeNow;
@@ -18,23 +18,23 @@ public:
 };
 
 int main(int argc, char *argv[]) {
-//    SoundPlayer mc;
-//    mc.addSoundFilesFromDir(argv[1]);
-//    WakeUpMode wakeUpMode;
-//    mc.playRandomSoundFile(&wakeUpMode);
-//
-//    cout << "Press <ENTER> to stop" << endl;
-//    cin.ignore();
-//
-//    mc.stopPlayback();
-//
-//    cout << "Playback stopped." << endl;
+    //  SoundPlayer mc;
+    //  mc.addSoundFilesFromDir(argv[1]);
+    //  WakeUpMode wakeUpMode;
+    //  mc.playRandomSoundFile(&wakeUpMode);
+    //
+    //  cout << "Press <ENTER> to stop" << endl;
+    //  cin.ignore();
+    //
+    //  mc.stopPlayback();
+    //
+    //  cout << "Playback stopped." << endl;
 
 
     Scheduler scheduler;
     TaskImplementation taskImplementationPtr;
 
-    scheduler.addTask(&taskImplementationPtr, 6, 0, 0, 0, true);
+//    scheduler.addTask(&taskImplementationPtr, 6, 1, 21, 10, true);
     cout << "Task added to scheduler..." << endl;
     cout << "Starting scheduler..." << endl;
     scheduler.start();

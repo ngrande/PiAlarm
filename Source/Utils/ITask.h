@@ -8,7 +8,7 @@
 
 class ITask {
 public:
-    virtual void onTimeExceeded() const = 0;
+    virtual void onTimeExceeded() = 0;
 };
 
 

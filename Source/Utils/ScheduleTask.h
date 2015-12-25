@@ -8,6 +8,10 @@
 //using namespace std;
 
 #include "ITask.h"
+#include <time.h>
+#include <memory>
+
+using namespace std;
 
 class ScheduleTask {
 private:
@@ -19,16 +23,16 @@ private:
 
     // set the values to -1 if you do not want to "use" them
 
-    ITask *task;
+    shared_ptr<ITask> task;
     bool doRepeat;
     struct tm lastExecutionTime;
 public:
-    ScheduleTask(ITask *task, int dayOfWeek, int hour, int minute, int second, bool doRepeat) : task(task),
-                                                                                                dayOfWeek(dayOfWeek),
-                                                                                                hour(hour),
-                                                                                                minute(minute),
-                                                                                                second(second),
-                                                                                                doRepeat(doRepeat) { };
+    ScheduleTask(shared_ptr<ITask> task, int dayOfWeek, int hour, int minute, int second, bool doRepeat) : task(task),
+                                                                                                           dayOfWeek(dayOfWeek),
+                                                                                                           hour(hour),
+                                                                                                           minute(minute),
+                                                                                                           second(second),
+                                                                                                           doRepeat(doRepeat) { };
 
     void executeTaskAsync();
 

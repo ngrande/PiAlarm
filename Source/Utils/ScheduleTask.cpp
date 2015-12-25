@@ -2,7 +2,6 @@
 // Created by ngrande on 12/15/15.
 //
 
-#include <time.h>
 #include "ScheduleTask.h"
 #include <thread>
 
@@ -35,7 +34,6 @@ double ScheduleTask::calculateLeftTime() const {
     timeOfTask.tm_wday = this->dayOfWeek >= 0 ? this->dayOfWeek : timeOfTask.tm_wday;
 
 
-    // -3682348492 | -36832362
     double diff = difftime(mktime(&timeOfTask), mktime(&timeNow)) + diffDayBuffer;
     return diff;
 }
@@ -46,5 +44,5 @@ void ScheduleTask::executeTaskAsync() {
     localtime_r(&timerNow, &lastExecutionTime); // get local time
 
     std::thread executeThread(&ITask::onTimeExceeded, this->task);
-    executeThread.detach();
+    executeThread.detach(); // detach the thread -> otherwise it would be destroyed when leaving this method
 }

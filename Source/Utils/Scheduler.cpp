@@ -8,7 +8,7 @@
 
 // TODO: add support for periodically times (i.e. every 30 minutes or every 3 days)
 
-void Scheduler::addTask(ITask *task, int dayOfWeek, int hour, int minute, int second, bool repeat) {
+void Scheduler::addTask(shared_ptr<ITask> task, int dayOfWeek, int hour, int minute, int second, bool repeat) {
     tasks.push_back(unique_ptr<ScheduleTask>(new ScheduleTask(task, dayOfWeek, hour, minute, second, repeat)));
 
     if (!stopped) {
