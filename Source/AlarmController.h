@@ -25,6 +25,7 @@ struct AlarmSetup {
 
 class AlarmController {
 private:
+    // todo: add complete path and a standard file - auto create if none exists.
     const char *CONFIG_FILENAME = ".PiAlarm.xml";
     Scheduler scheduler;
     vector<AlarmSetup> alarmSetups;
