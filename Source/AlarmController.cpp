@@ -11,7 +11,7 @@
 
 using namespace rapidxml;
 
-void AlarmController::loadAlarmSetups() {
+void AlarmController::readAlarmSetups(vector<AlarmSetup> &buffer) {
     file<> xmlFile = file<>(CONFIG_FILENAME);
     xml_document<> doc;
     doc.parse<0>(xmlFile.data());
@@ -37,11 +37,13 @@ void AlarmController::loadAlarmSetups() {
             alarmSetup.days.push_back(stoi(daysStringArr[i]));
         }
 
-        alarmSetups.push_back(alarmSetup);
+        buffer.push_back(alarmSetup);
     }
 }
 
-void AlarmController::startAlarms() {
+void AlarmController::start() {
+    readAlarmSetups(alarmSetups);
+
     for (vector<AlarmSetup>::iterator alarmsIt = alarmSetups.begin(); alarmsIt < alarmSetups.end(); alarmsIt++) {
         auto alarmPt = alarmsIt.base();
 
@@ -52,9 +54,15 @@ void AlarmController::startAlarms() {
             scheduler.addTask(alarmTask, alarmPt->days[i], alarmPt->hour, alarmPt->minute, alarmPt->second, true);
         }
     }
+
+    scheduler.start();
 }
 
-void AlarmController::stopCurrentAlarm() {
+void AlarmController::stop() {
+    scheduler.stop();
+}
+
+void AlarmController::dismissAlarm() {
     soundPlayer.stopPlayback();
 }
 

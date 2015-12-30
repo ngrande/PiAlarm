@@ -31,14 +31,16 @@ private:
     SoundPlayer soundPlayer;
     StandardMode standardMode;
 
-    void loadAlarmSetups();
-
 public:
-    void startAlarms();
+    void start();
+
+    void stop();
 
     void addAlarm(AlarmSetup &alarmSetup);
 
-    void stopCurrentAlarm();
+    void readAlarmSetups(vector<AlarmSetup> &buffer);
+
+    void dismissAlarm();
 };
 
 
