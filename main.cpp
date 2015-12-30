@@ -1,5 +1,6 @@
 #include "Source/SoundPlayer.h"
 #include "Source/Utils/Scheduler.h"
+#include "Source/AlarmController.h"
 #include <iostream>
 
 class TaskImplementation : public ITask {
@@ -18,28 +19,21 @@ public:
 };
 
 int main(int argc, char *argv[]) {
-    //  SoundPlayer mc;
-    //  mc.addSoundFilesFromDir(argv[1]);
-    //  WakeUpMode wakeUpMode;
-    //  mc.playRandomSoundFile(&wakeUpMode);
-    //
-    //  cout << "Press <ENTER> to stop" << endl;
-    //  cin.ignore();
-    //
-    //  mc.stopPlayback();
-    //
-    //  cout << "Playback stopped." << endl;
-
-
-    Scheduler scheduler;
-    TaskImplementation taskImplementationPtr;
-
-//    scheduler.addTask(&taskImplementationPtr, 6, 1, 21, 10, true);
-    cout << "Task added to scheduler..." << endl;
-    cout << "Starting scheduler..." << endl;
-    scheduler.start();
+    cout << "adding new task to the XML file" << endl;
+    AlarmController alarmController;
+    AlarmSetup alarmSetup;
+    alarmSetup.name = "New added alarm";
+    alarmSetup.hour = 19;
+    alarmSetup.minute = 0;
+    alarmSetup.second = 0;
+    alarmSetup.soundPath = "/";
+    alarmSetup.message = "Stand up as soon as you can!";
+    vector<int> daysVector;
+    daysVector.push_back(1);
+    daysVector.push_back(2);
+    alarmSetup.days = daysVector;
+    alarmController.addAlarm(alarmSetup);
     cout << "Press ENTER to exit." << endl;
     cin.ignore();
-    scheduler.stop();
     return 0;
 }

@@ -36,6 +36,8 @@ private:
 public:
     void startAlarms();
 
+    void addAlarm(AlarmSetup &alarmSetup);
+
     void stopCurrentAlarm();
 };
 
