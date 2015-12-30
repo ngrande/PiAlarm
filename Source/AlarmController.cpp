@@ -66,7 +66,7 @@ void AlarmController::dismissAlarm() {
     soundPlayer.stopPlayback();
 }
 
-void AlarmController::addAlarm(AlarmSetup &alarmSetup) {
+void AlarmController::addAlarmSetup(AlarmSetup &alarmSetup) {
     file<> xmlFile = file<>(CONFIG_FILENAME);
     xml_document<> doc;
     doc.parse<0>(xmlFile.data());

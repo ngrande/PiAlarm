@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
     daysVector.push_back(1);
     daysVector.push_back(2);
     alarmSetup.days = daysVector;
-    alarmController.addAlarm(alarmSetup);
+    alarmController.addAlarmSetup(alarmSetup);
     cout << "Press ENTER to exit." << endl;
     cin.ignore();
     return 0;

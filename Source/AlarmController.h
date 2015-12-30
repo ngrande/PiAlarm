@@ -36,7 +36,7 @@ public:
 
     void stop();
 
-    void addAlarm(AlarmSetup &alarmSetup);
+    void addAlarmSetup(AlarmSetup &alarmSetup);
 
     void readAlarmSetups(vector<AlarmSetup> &buffer);
 
