@@ -51,7 +51,6 @@ void AlarmController::start() {
         for (int i = 0; i < alarmPt->days.size(); i++) {
             shared_ptr<AlarmTask> alarmTask(
                     new AlarmTask(&soundPlayer, &standardMode, alarmPt->name, alarmPt->message, alarmPt->soundPath));
-            // i assume a shared_ptr would make more sense here
             scheduler.addTask(alarmTask, alarmPt->days[i], alarmPt->hour, alarmPt->minute, alarmPt->second, true);
         }
     }
@@ -164,7 +163,6 @@ void AlarmController::deleteAlarmSetup(int id) {
 
     for (xml_node<> *valueNode = rootNode->first_node("AlarmSetup"); valueNode; valueNode = valueNode->next_sibling()) {
         if (stoi(valueNode->first_node("id")->value()) == id) {
-//            doc.remove_node(valueNode);
             rootNode->remove_node(valueNode);
             break;
         }
