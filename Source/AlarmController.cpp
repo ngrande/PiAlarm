@@ -2,19 +2,15 @@
 // Created by ngrande on 12/23/15.
 //
 
-#include <rapidxml.hpp>
 #include <rapidxml_utils.hpp>
 #include <rapidxml_print.hpp>
 #include "Utils/Helper.h"
 #include "AlarmTask.h"
 #include "AlarmController.h"
 
-using namespace rapidxml;
-
 void AlarmController::readAlarmSetups(vector<AlarmSetup> &buffer) {
-    file<> xmlFile = file<>(CONFIG_FILENAME);
     xml_document<> doc;
-    doc.parse<0>(xmlFile.data());
+    loadXmlConfigDoc(doc);
 
     xml_node<> *rootNode = doc.first_node();
     rootNode = rootNode->first_node("AlarmSetups");
@@ -67,9 +63,8 @@ void AlarmController::dismissAlarm() {
 }
 
 void AlarmController::addAlarmSetup(AlarmSetup &alarmSetup) {
-    file<> xmlFile = file<>(CONFIG_FILENAME);
     xml_document<> doc;
-    doc.parse<0>(xmlFile.data());
+    loadXmlConfigDoc(doc);
 
     xml_node<> *rootNode = doc.first_node();
     rootNode = rootNode->first_node("AlarmSetups");
@@ -128,14 +123,10 @@ void AlarmController::addAlarmSetup(AlarmSetup &alarmSetup) {
 
     // finally add new created node
     rootNode->append_node(addedNode); // append an AlarmSetup xml tag
-    ofstream file(CONFIG_FILENAME);
-    if (file.is_open()) {
-        string data;
-        rapidxml::print(back_inserter(data), doc);
-        file << "<?xml version=\"1.0\"?>" << endl;
-        file << data;
-        file.close();
-    }
+
+    string data;
+    rapidxml::print(back_inserter(data), doc);
+    saveXmlConfigDoc(data);
 }
 
 int AlarmController::generateAlarmSetupId() {
@@ -154,9 +145,8 @@ int AlarmController::generateAlarmSetupId() {
 }
 
 void AlarmController::deleteAlarmSetup(int id) {
-    file<> xmlFile = file<>(CONFIG_FILENAME);
     xml_document<> doc;
-    doc.parse<0>(xmlFile.data());
+    loadXmlConfigDoc(doc);
 
     xml_node<> *rootNode = doc.first_node();
     rootNode = rootNode->first_node("AlarmSetups");
@@ -168,10 +158,20 @@ void AlarmController::deleteAlarmSetup(int id) {
         }
     }
 
+    string data;
+    rapidxml::print(back_inserter(data), doc);
+    saveXmlConfigDoc(data);
+}
+
+void AlarmController::loadXmlConfigDoc(xml_document<> &doc) {
+    file<> xmlFile = file<>(CONFIG_FILENAME);
+    doc.parse<0>(xmlFile.data());
+}
+
+void AlarmController::saveXmlConfigDoc(string &data) {
+    // not possible to use the xml_document<> as a parameter -> the xml data is broken then and copy constructor is deleted
     ofstream file(CONFIG_FILENAME);
     if (file.is_open()) {
-        string data;
-        rapidxml::print(back_inserter(data), doc);
         file << "<?xml version=\"1.0\"?>" << endl;
         file << data;
         file.close();

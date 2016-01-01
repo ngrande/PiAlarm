@@ -10,7 +10,9 @@
 #include "Utils/Scheduler.h"
 #include "SoundPlayer.h"
 #include "StandardMode.h"
+#include <rapidxml.hpp>
 
+using namespace rapidxml;
 using namespace std;
 
 struct AlarmSetup {
@@ -34,6 +36,10 @@ private:
     StandardMode standardMode;
 
     int generateAlarmSetupId();
+
+    void saveXmlConfigDoc(string &data);
+
+    void loadXmlConfigDoc(xml_document<> &doc);
 
 public:
     void start();
