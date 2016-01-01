@@ -8,7 +8,27 @@
 			<hour>19</hour>
 			<minute>0</minute>
 			<second>0</second>
-			<id>67628</id>
+			<id>86594</id>
+			<days>1,2</days>
+		</AlarmSetup>
+		<AlarmSetup>
+			<name>New added alarm</name>
+			<message>Stand up as soon as you can!</message>
+			<sound-path>/</sound-path>
+			<hour>19</hour>
+			<minute>0</minute>
+			<second>0</second>
+			<id>86622</id>
+			<days>1,2</days>
+		</AlarmSetup>
+		<AlarmSetup>
+			<name>New added alarm</name>
+			<message>Stand up as soon as you can!</message>
+			<sound-path>/</sound-path>
+			<hour>19</hour>
+			<minute>0</minute>
+			<second>0</second>
+			<id>86651</id>
 			<days>1,2</days>
 		</AlarmSetup>
 	</AlarmSetups>

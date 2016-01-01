@@ -42,7 +42,6 @@ public:
 
     void addAlarmSetup(AlarmSetup &alarmSetup);
 
-    // todo: implement this function...
     void deleteAlarmSetup(int id);
 
     void readAlarmSetups(vector<AlarmSetup> &buffer);

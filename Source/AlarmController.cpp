@@ -153,3 +153,29 @@ int AlarmController::generateAlarmSetupId() {
     double seconds = difftime(timerNow, mktime(&y0));
     return (int) seconds;
 }
+
+void AlarmController::deleteAlarmSetup(int id) {
+    file<> xmlFile = file<>(CONFIG_FILENAME);
+    xml_document<> doc;
+    doc.parse<0>(xmlFile.data());
+
+    xml_node<> *rootNode = doc.first_node();
+    rootNode = rootNode->first_node("AlarmSetups");
+
+    for (xml_node<> *valueNode = rootNode->first_node("AlarmSetup"); valueNode; valueNode = valueNode->next_sibling()) {
+        if (stoi(valueNode->first_node("id")->value()) == id) {
+//            doc.remove_node(valueNode);
+            rootNode->remove_node(valueNode);
+            break;
+        }
+    }
+
+    ofstream file(CONFIG_FILENAME);
+    if (file.is_open()) {
+        string data;
+        rapidxml::print(back_inserter(data), doc);
+        file << "<?xml version=\"1.0\"?>" << endl;
+        file << data;
+        file.close();
+    }
+}

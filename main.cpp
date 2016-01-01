@@ -33,6 +33,9 @@ int main(int argc, char *argv[]) {
     daysVector.push_back(2);
     alarmSetup.days = daysVector;
     alarmController.addAlarmSetup(alarmSetup);
+    vector<AlarmSetup> setups;
+    alarmController.readAlarmSetups(setups);
+    alarmController.deleteAlarmSetup(setups[0].id);
     cout << "Press ENTER to exit." << endl;
     cin.ignore();
     return 0;
