@@ -2,30 +2,13 @@
 <PiAlarm>
 	<AlarmSetups>
 		<AlarmSetup>
-			<name>Work alarm</name>
-			<message>Stand up! now.</message>
-			<sound-path>/</sound-path>
-			<hour>8</hour>
-			<minute>30</minute>
-			<second>0</second>
-			<days>1,2,3,4,5</days>
-		</AlarmSetup>
-		<AlarmSetup>
 			<name>New added alarm</name>
 			<message>Stand up as soon as you can!</message>
 			<sound-path>/</sound-path>
 			<hour>19</hour>
 			<minute>0</minute>
 			<second>0</second>
-			<days>1,2</days>
-		</AlarmSetup>
-		<AlarmSetup>
-			<name>New added alarm</name>
-			<message>Stand up as soon as you can!</message>
-			<sound-path>/</sound-path>
-			<hour>19</hour>
-			<minute>0</minute>
-			<second>0</second>
+			<id>67628</id>
 			<days>1,2</days>
 		</AlarmSetup>
 	</AlarmSetups>

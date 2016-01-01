@@ -19,6 +19,7 @@ struct AlarmSetup {
     int hour;
     int minute;
     int second;
+    int id;
     string soundPath;
     vector<int> days; // 1 = Monday, 2 = Tuesday, ... 7 = Sunday.
 };
@@ -32,12 +33,17 @@ private:
     SoundPlayer soundPlayer;
     StandardMode standardMode;
 
+    int generateAlarmSetupId();
+
 public:
     void start();
 
     void stop();
 
     void addAlarmSetup(AlarmSetup &alarmSetup);
+
+    // todo: implement this function...
+    void deleteAlarmSetup(int id);
 
     void readAlarmSetups(vector<AlarmSetup> &buffer);
 

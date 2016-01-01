@@ -27,6 +27,7 @@ void AlarmController::readAlarmSetups(vector<AlarmSetup> &buffer) {
         alarmSetup.hour = stoi(valueNode->first_node("hour")->value());
         alarmSetup.minute = stoi(valueNode->first_node("minute")->value());
         alarmSetup.second = stoi(valueNode->first_node("second")->value());
+        alarmSetup.id = stoi(valueNode->first_node("id")->value());
         string daysString = valueNode->first_node("days")->value();
 
         int appearanceCount = Helper::countAppearance(daysString, ',') + 1;
@@ -106,6 +107,12 @@ void AlarmController::addAlarmSetup(AlarmSetup &alarmSetup) {
     addedNestedNode->value(memoryPool.allocate_string(buffer, sizeof(buffer)));
     addedNode->append_node(addedNestedNode);
 
+    char idBuffer[10];
+    sprintf(idBuffer, "%d", generateAlarmSetupId());
+    addedNestedNode = doc.allocate_node(node_element, "id");
+    addedNestedNode->value(memoryPool.allocate_string(idBuffer, sizeof(idBuffer)));
+    addedNode->append_node(addedNestedNode);
+
     string daysStr = "";
     for (int i = 0; i < alarmSetup.days.size(); i++) {
         char daysBuffer[1];
@@ -130,4 +137,19 @@ void AlarmController::addAlarmSetup(AlarmSetup &alarmSetup) {
         file << data;
         file.close();
     }
+}
+
+int AlarmController::generateAlarmSetupId() {
+    // current date time
+    time_t timerNow;
+    time(&timerNow); // get current time
+    struct tm y0;
+    y0.tm_hour = 0;
+    y0.tm_min = 0;
+    y0.tm_sec = 0;
+    y0.tm_year = 116;
+    y0.tm_mon = 0;
+    y0.tm_mday = 1;
+    double seconds = difftime(timerNow, mktime(&y0));
+    return (int) seconds;
 }
