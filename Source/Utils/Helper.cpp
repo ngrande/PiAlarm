@@ -2,6 +2,7 @@
 // Created by ngrande on 12/9/15.
 //
 
+#include <sys/stat.h>
 #include "Helper.h"
 
 string Helper::extractFileExtension(const string &filename) {
@@ -47,4 +48,10 @@ int Helper::countAppearance(const string &input, char searchChar) {
         }
     }
     return count;
+}
+
+bool Helper::fileExists(const string &name) {
+    // reference: https://stackoverflow.com/questions/12774207/fastest-way-to-check-if-a-file-exist-using-standard-c-c11-c
+    struct stat buffer;
+    return (stat(name.c_str(), &buffer) == 0);
 }

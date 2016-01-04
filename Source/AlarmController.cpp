@@ -12,7 +12,7 @@ void AlarmController::readAlarmSetups(vector<AlarmSetup> &buffer) {
     xml_document<> doc;
     loadXmlConfigDoc(doc);
 
-    xml_node<> *rootNode = doc.first_node();
+    auto rootNode = doc.first_node();
     rootNode = rootNode->first_node("AlarmSetups");
 
     for (xml_node<> *valueNode = rootNode->first_node("AlarmSetup"); valueNode; valueNode = valueNode->next_sibling()) {
@@ -66,46 +66,31 @@ void AlarmController::addAlarmSetup(AlarmSetup &alarmSetup) {
     xml_document<> doc;
     loadXmlConfigDoc(doc);
 
-    xml_node<> *rootNode = doc.first_node();
+    auto rootNode = doc.first_node();
     rootNode = rootNode->first_node("AlarmSetups");
 
     // create node to add
-    xml_node<> *addedNode = doc.allocate_node(node_element, "AlarmSetup");
+    auto addedNode = doc.allocate_node(node_element, "AlarmSetup");
 
     // add node attributes
-    xml_node<> *addedNestedNode = doc.allocate_node(node_element, "name");
-    addedNestedNode->value(alarmSetup.name.c_str());
-    addedNode->append_node(addedNestedNode);
+    appendNode(doc, addedNode, "name", alarmSetup.name);
 
-    addedNestedNode = doc.allocate_node(node_element, "message");
-    addedNestedNode->value(alarmSetup.message.c_str());
-    addedNode->append_node(addedNestedNode);
+    appendNode(doc, addedNode, "message", alarmSetup.message);
 
-    addedNestedNode = doc.allocate_node(node_element, "sound-path");
-    addedNestedNode->value(alarmSetup.soundPath.c_str());
-    addedNode->append_node(addedNestedNode);
-    char buffer[2];
-    memory_pool<> memoryPool;
+    appendNode(doc, addedNode, "sound-path", alarmSetup.soundPath);
+
+    char buffer[10];
     sprintf(buffer, "%d", alarmSetup.hour);
-    addedNestedNode = doc.allocate_node(node_element, "hour");
-    addedNestedNode->value(memoryPool.allocate_string(buffer, sizeof(buffer)));
-    addedNode->append_node(addedNestedNode);
+    appendNode(doc, addedNode, "hour", buffer, sizeof(buffer));
 
     sprintf(buffer, "%d", alarmSetup.minute);
-    addedNestedNode = doc.allocate_node(node_element, "minute");
-    addedNestedNode->value(memoryPool.allocate_string(buffer, sizeof(buffer)));
-    addedNode->append_node(addedNestedNode);
+    appendNode(doc, addedNode, "minute", buffer, sizeof(buffer));
 
     sprintf(buffer, "%d", alarmSetup.second);
-    addedNestedNode = doc.allocate_node(node_element, "second");
-    addedNestedNode->value(memoryPool.allocate_string(buffer, sizeof(buffer)));
-    addedNode->append_node(addedNestedNode);
+    appendNode(doc, addedNode, "second", buffer, sizeof(buffer));
 
-    char idBuffer[10];
-    sprintf(idBuffer, "%d", generateAlarmSetupId());
-    addedNestedNode = doc.allocate_node(node_element, "id");
-    addedNestedNode->value(memoryPool.allocate_string(idBuffer, sizeof(idBuffer)));
-    addedNode->append_node(addedNestedNode);
+    sprintf(buffer, "%d", generateAlarmSetupId());
+    appendNode(doc, addedNode, "id", buffer, sizeof(buffer));
 
     string daysStr = "";
     for (int i = 0; i < alarmSetup.days.size(); i++) {
@@ -117,9 +102,7 @@ void AlarmController::addAlarmSetup(AlarmSetup &alarmSetup) {
         }
     }
 
-    addedNestedNode = doc.allocate_node(node_element, "days");
-    addedNestedNode->value(daysStr.c_str());
-    addedNode->append_node(addedNestedNode);
+    appendNode(doc, addedNode, "days", daysStr);
 
     // finally add new created node
     rootNode->append_node(addedNode); // append an AlarmSetup xml tag
@@ -148,7 +131,7 @@ void AlarmController::deleteAlarmSetup(int id) {
     xml_document<> doc;
     loadXmlConfigDoc(doc);
 
-    xml_node<> *rootNode = doc.first_node();
+    auto rootNode = doc.first_node();
     rootNode = rootNode->first_node("AlarmSetups");
 
     for (xml_node<> *valueNode = rootNode->first_node("AlarmSetup"); valueNode; valueNode = valueNode->next_sibling()) {
@@ -164,7 +147,11 @@ void AlarmController::deleteAlarmSetup(int id) {
 }
 
 void AlarmController::loadXmlConfigDoc(xml_document<> &doc) {
-    file<> xmlFile = file<>(CONFIG_FILENAME);
+    // todo: there is a bug - when creating the file and then using the modification methods like add and delete
+    if (!Helper::fileExists(CONFIG_FILENAME)) {
+        createXmlConfigFile();
+    }
+    file<> xmlFile(CONFIG_FILENAME);
     doc.parse<0>(xmlFile.data());
 }
 
@@ -176,4 +163,27 @@ void AlarmController::saveXmlConfigDoc(string &data) {
         file << data;
         file.close();
     }
+}
+
+void AlarmController::createXmlConfigFile() {
+    xml_document<> doc;
+    auto rootNode = doc.allocate_node(node_element, "PiAlarm");
+    auto alarmsNode = doc.allocate_node(node_element, "AlarmSetups");
+    rootNode->append_node(alarmsNode);
+    doc.append_node(rootNode);
+
+    string data;
+    rapidxml::print(back_inserter(data), doc);
+    saveXmlConfigDoc(data);
+}
+
+void AlarmController::appendNode(xml_document<> &doc, xml_node<> *nodeParent, string name, char *value,
+                                 size_t valueSize) {
+    auto addedNestedNode = doc.allocate_node(node_element, doc.allocate_string(name.c_str(), name.size()));
+    addedNestedNode->value(doc.allocate_string(value, valueSize));
+    nodeParent->append_node(addedNestedNode);
+}
+
+void AlarmController::appendNode(xml_document<> &doc, xml_node<> *nodeParent, string name, string &value) {
+    appendNode(doc, nodeParent, name, (char *) value.c_str(), value.size());
 }

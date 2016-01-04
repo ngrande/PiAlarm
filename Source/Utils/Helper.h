@@ -20,6 +20,8 @@ public:
     static void separate(string *buffer, const string &input, char separator);
 
     static int countAppearance(const string &input, char searchChar);
+
+    static bool fileExists(const string &name);
 };
 
 

@@ -41,6 +41,12 @@ private:
 
     void loadXmlConfigDoc(xml_document<> &doc);
 
+    void appendNode(xml_document<> &doc, xml_node<> *nodeParent, string name, char *value, size_t valueSize);
+
+    void appendNode(xml_document<> &doc, xml_node<> *nodeParent, string name, string &value);
+
+    void createXmlConfigFile();
+
 public:
     void start();
 
