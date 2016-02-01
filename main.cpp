@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
     cout << "adding new task to the XML file" << endl;
     AlarmController alarmController;
     AlarmSetup alarmSetup;
-    alarmSetup.name = "New added alarm";
+    alarmSetup.name = "New added alarm!";
     alarmSetup.hour = 19;
     alarmSetup.minute = 0;
     alarmSetup.second = 0;

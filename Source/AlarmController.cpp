@@ -67,6 +67,7 @@ void AlarmController::addAlarmSetup(AlarmSetup &alarmSetup) {
     loadXmlConfigDoc(doc);
 
     auto rootNode = doc.first_node();
+    auto name = rootNode->name();
     rootNode = rootNode->first_node("AlarmSetups");
 
     // create node to add

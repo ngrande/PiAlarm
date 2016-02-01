@@ -1,0 +1,1 @@
+/home/ngrande/Projects/ClionProjects/PiAlarm/build/CMakeFiles/PiAlarm.dir
